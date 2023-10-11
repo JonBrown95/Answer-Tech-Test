@@ -1,6 +1,9 @@
 describe("Login Test", () => {
-  it("should display an error message for invalid username", () => {
+  beforeEach(() => {
     cy.visit("https://www.saucedemo.com");
+  });
+
+  it("should display an error message for invalid username", () => {
     cy.get("#user-name").type("invalid_user");
     cy.get("#password").type("secret_sauce");
     cy.get("#login-button").click();
@@ -10,7 +13,6 @@ describe("Login Test", () => {
   });
 
   it("should display an error message if invalid password entered", () => {
-    cy.visit("https://www.saucedemo.com");
     cy.get("#user-name").type("standard_user");
     cy.get("#password").type("invalid_password");
     cy.get("#login-button").click();
@@ -20,20 +22,17 @@ describe("Login Test", () => {
   });
 
   it("should display an error message if no username is entered", () => {
-    cy.visit("https://www.saucedemo.com");
     cy.get("#login-button").click();
     cy.contains("Epic sadface: Username is required").should("be.visible");
   });
 
   it("should display an error message if no password is entered", () => {
-    cy.visit("https://www.saucedemo.com");
     cy.get("#user-name").type("standard_user");
     cy.get("#login-button").click();
     cy.contains("Epic sadface: Password is required").should("be.visible");
   });
 
   it("should login with standard user credentials", () => {
-    cy.visit("https://www.saucedemo.com");
     cy.get("#user-name")
       .type("standard_user")
       .should("have.value", "standard_user");
@@ -43,6 +42,4 @@ describe("Login Test", () => {
     cy.get("#login-button").click();
     cy.url().should("include", "inventory.html");
   });
-
-
 });
